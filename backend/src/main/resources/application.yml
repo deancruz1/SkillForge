@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: backend
+  datasource:
+    url: jdbc:postgresql://aws-1-ap-northeast-2.pooler.supabase.com:6543/postgres
+    username: postgres.dtpmecjdzejfrpypckzq
+    password: SkillForge2026
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      data-source-properties:
+        prepareThreshold: 0
+  jpa:
+    hibernate:
+      ddl-auto: none
+    show-sql: true
+
+kind: Application
