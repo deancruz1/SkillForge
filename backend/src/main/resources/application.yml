@@ -1,25 +1,24 @@
 spring:
   application:
     name: backend
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   datasource:
-    url: jdbc:postgresql://aws-1-ap-northeast-2.pooler.supabase.com:6543/postgres
-    username: postgres.dtpmecjdzejfrpypckzq
-    password: SkillForge2026
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://aws-1-ap-northeast-2.pooler.supabase.com:6543/postgres}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres.dtpmecjdzejfrpypckzq}
+    password: ${SPRING_DATASOURCE_PASSWORD:SkillForge2026}
     driver-class-name: org.postgresql.Driver
     hikari:
       data-source-properties:
         prepareThreshold: 0
-    autoconfigure:
-      exclude:
-        - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
-        - org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
   jpa:
     hibernate:
       ddl-auto: none
     show-sql: true
+
 app:
   jwt:
-    secret: ThisIsASecretKeyForJWTThatIsAtLeast256BitsLongForHS256Algorithm!!
-    expiration-ms: 86400000  # 24 hours
-
-kind: Application
+    secret: ${APP_JWT_SECRET:ThisIsASecretKeyForJWTThatIsAtLeast256BitsLongForHS256Algorithm!!}
+    expiration-ms: 86400000
