@@ -14,7 +14,7 @@ public class CorsConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("http://localhost:4200", "https://skillforge-k3wp.onrender.com", "https://skill-forge-nine-silk.vercel.app")
+                        .allowedOrigins("http://localhost:4200", "https://skillforge-k3wp.onrender.com", "https://skill-forge-learning.vercel.app")
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                         .allowedHeaders("*")
                         .allowCredentials(true);
