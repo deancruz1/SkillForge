@@ -1,13 +1,15 @@
+// course.ts
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from './auth';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class CourseService {
-  private apiUrl = 'http://localhost:8080/api/courses';
+  private apiUrl = `${environment.apiUrl}/api/courses`;
 
   constructor(
     private http: HttpClient,
@@ -38,7 +40,7 @@ export class CourseService {
   }
 
   getMyEnrollments(): Observable<any[]> {
-    return this.http.get<any[]>('http://localhost:8080/api/enrollments/mine', {
+    return this.http.get<any[]>(`${environment.apiUrl}/api/enrollments/mine`, {
       headers: this.getHeaders(),
     });
   }
@@ -50,47 +52,47 @@ export class CourseService {
   }
 
   getProgress(courseId: string): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/api/courses/${courseId}/progress`, {
+    return this.http.get<any[]>(`${environment.apiUrl}/api/courses/${courseId}/progress`, {
       headers: this.getHeaders(),
     });
   }
 
   completeLesson(lessonId: string): Observable<any> {
     return this.http.post(
-      `http://localhost:8080/api/lessons/${lessonId}/complete`,
+      `${environment.apiUrl}/api/lessons/${lessonId}/complete`,
       {},
       { headers: this.getHeaders() },
     );
   }
 
   getQuiz(courseId: string): Observable<any> {
-    return this.http.get<any>(`http://localhost:8080/api/courses/${courseId}/quiz`, {
+    return this.http.get<any>(`${environment.apiUrl}/api/courses/${courseId}/quiz`, {
       headers: this.getHeaders(),
     });
   }
 
   getQuestions(quizId: string): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/api/quizzes/${quizId}/questions`, {
+    return this.http.get<any[]>(`${environment.apiUrl}/api/quizzes/${quizId}/questions`, {
       headers: this.getHeaders(),
     });
   }
 
   getOptions(questionId: string): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/api/questions/${questionId}/options`, {
+    return this.http.get<any[]>(`${environment.apiUrl}/api/questions/${questionId}/options`, {
       headers: this.getHeaders(),
     });
   }
 
   submitQuiz(quizId: string, answers: string[]): Observable<any> {
     return this.http.post(
-      `http://localhost:8080/api/quizzes/${quizId}/submit`,
+      `${environment.apiUrl}/api/quizzes/${quizId}/submit`,
       { answers },
       { headers: this.getHeaders() },
     );
   }
 
   getAttempts(quizId: string): Observable<any[]> {
-    return this.http.get<any[]>(`http://localhost:8080/api/quizzes/${quizId}/attempts`, {
+    return this.http.get<any[]>(`${environment.apiUrl}/api/quizzes/${quizId}/attempts`, {
       headers: this.getHeaders(),
     });
   }
