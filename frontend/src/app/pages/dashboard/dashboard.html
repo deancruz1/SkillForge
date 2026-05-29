@@ -1,0 +1,84 @@
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8">My Dashboard</h1>
+
+  @if (loading) {
+    <p class="text-center text-gray-500">Loading...</p>
+  } @else if (enrollments.length === 0) {
+    <div class="text-center py-12">
+      <p class="text-gray-500 text-lg mb-4">You're not enrolled in any courses yet.</p>
+      <a
+        routerLink="/courses"
+        class="bg-red-500 text-white px-6 py-2 rounded hover:bg-red-600 inline-block no-underline"
+      >
+        Browse Courses
+      </a>
+    </div>
+  } @else {
+    <div class="space-y-4">
+      @for (enrollment of enrollments; track enrollment.courseId) {
+        <a
+          [routerLink]="['/courses', enrollment.courseId]"
+          class="block bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition no-underline"
+        >
+          <div class="flex justify-between items-start mb-4">
+            <div>
+              <h2 class="text-xl font-semibold text-gray-800">{{ enrollment.courseTitle }}</h2>
+              <p class="text-sm text-gray-500">Enrolled: {{ enrollment.enrolledAt | date }}</p>
+            </div>
+            <span class="text-red-500 text-2xl">&rarr;</span>
+          </div>
+
+          <!-- Progress bar -->
+          <div class="mb-3">
+            <div class="flex justify-between text-sm text-gray-600 mb-1">
+              <span>Lessons</span>
+              <span>{{ enrollment.completedLessons || 0 }}/{{ enrollment.totalLessons || 0 }}</span>
+            </div>
+            <div class="w-full bg-gray-200 rounded-full h-2">
+              <div
+                class="bg-green-500 h-2 rounded-full transition-all"
+                [style.width.%]="getProgressPercent(enrollment)"
+              ></div>
+            </div>
+          </div>
+
+          <!-- Quiz status -->
+          <div>
+            <div class="flex justify-between text-sm text-gray-600 mb-1">
+              <span>Quiz</span>
+              @if (enrollment.hasQuiz) {
+                @if (enrollment.quizAttempts > 0) {
+                  <span>
+                    {{ enrollment.quizScore }}/{{ enrollment.quizTotal }}
+                    -
+                    <span
+                      [class.text-green-500]="enrollment.quizPassed"
+                      [class.text-red-500]="!enrollment.quizPassed"
+                    >
+                      {{ enrollment.quizPassed ? 'Passed' : 'Failed' }}
+                    </span>
+                  </span>
+                } @else {
+                  <span class="text-yellow-500">Not attempted</span>
+                }
+              } @else {
+                <span class="text-gray-400">No quiz</span>
+              }
+            </div>
+            @if (enrollment.hasQuiz) {
+              <div class="w-full bg-gray-200 rounded-full h-2">
+                <div
+                  class="h-2 rounded-full transition-all"
+                  [class.bg-green-500]="enrollment.quizPassed"
+                  [class.bg-red-500]="enrollment.quizAttempts > 0 && !enrollment.quizPassed"
+                  [class.bg-yellow-400]="enrollment.quizAttempts === 0"
+                  [style.width.%]="enrollment.quizAttempts > 0 ? 100 : 0"
+                ></div>
+              </div>
+            }
+          </div>
+        </a>
+      }
+    </div>
+  }
+</div>

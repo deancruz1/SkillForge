@@ -11,15 +11,18 @@ public class CourseResponse {
     private String description;
     private String instructorName;
     private LocalDateTime createdAt;
+    private UUID instructorId;
 
     public CourseResponse(Course course) {
         this.id = course.getId();
         this.title = course.getTitle();
         this.description = course.getDescription();
         this.instructorName = course.getInstructor().getFullName();
+        this.instructorId = course.getInstructor().getId();
         this.createdAt = course.getCreatedAt();
     }
 
+    public UUID getInstructorId() { return instructorId; }
     public UUID getId() { return id; }
     public String getTitle() { return title; }
     public String getDescription() { return description; }

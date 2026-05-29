@@ -1,0 +1,78 @@
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-8">Courses</h1>
+
+  @if (isLoggedIn && isInstructor) {
+    <div class="mb-6">
+      <button
+        (click)="showCreateForm = !showCreateForm"
+        class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+      >
+        {{ showCreateForm ? 'Cancel' : 'Create Course' }}
+      </button>
+    </div>
+
+    @if (showCreateForm) {
+      <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+        <h3 class="text-lg font-semibold mb-4">Create New Course</h3>
+        <input
+          type="text"
+          [(ngModel)]="newCourseTitle"
+          placeholder="Course title"
+          class="w-full px-3 py-2 border border-gray-300 rounded mb-3 focus:outline-none focus:border-green-500"
+        />
+        <textarea
+          [(ngModel)]="newCourseDescription"
+          placeholder="Course description"
+          rows="3"
+          class="w-full px-3 py-2 border border-gray-300 rounded mb-3 focus:outline-none focus:border-green-500"
+        ></textarea>
+        <button
+          (click)="createCourse()"
+          class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Create
+        </button>
+      </div>
+    }
+  }
+
+  @if (loading) {
+    <p class="text-gray-500 text-center mt-12">Loading courses...</p>
+  } @else if (courses.length === 0) {
+    <p class="text-gray-500 text-center mt-12">No courses available yet.</p>
+  } @else {
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      @for (course of courses; track course.id) {
+        <div class="bg-white rounded-lg shadow-md p-6 hover:shadow-lg transition">
+          <h2 class="text-xl font-semibold mb-2">{{ course.title }}</h2>
+          <p class="text-gray-600 mb-4">{{ course.description }}</p>
+          <p class="text-sm text-gray-500 mb-4">Instructor: {{ course.instructorName }}</p>
+          @if (isLoggedIn) {
+            @if (isOwner(course.instructorId)) {
+              <a
+                [routerLink]="['/courses', course.id]"
+                class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 inline-block text-center no-underline"
+              >
+                Manage Course
+              </a>
+            } @else if (isEnrolled(course.id)) {
+              <a
+                [routerLink]="['/courses', course.id]"
+                class="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 inline-block text-center no-underline"
+              >
+                View Course
+              </a>
+            } @else {
+              <button
+                (click)="enroll(course.id)"
+                class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+              >
+                Enroll
+              </button>
+            }
+          }
+        </div>
+      }
+    </div>
+  }
+</div>

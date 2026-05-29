@@ -1,0 +1,21 @@
+<header class="bg-gray-900 text-white">
+  <nav class="flex justify-between items-center max-w-6xl mx-auto px-4 py-3">
+    <a routerLink="/" class="text-red-500 text-xl font-bold no-underline">{{ title }}</a>
+    <div class="flex gap-4 items-center">
+      <a routerLink="/courses" class="text-white no-underline hover:text-red-500">Courses</a>
+      @if (!isLoggedIn) {
+        <a routerLink="/login" class="text-white no-underline hover:text-red-500">Login</a>
+        <a routerLink="/register" class="text-white no-underline hover:text-red-500">Register</a>
+      }
+      @if (isLoggedIn) {
+        <a routerLink="/dashboard" class="text-white no-underline hover:text-red-500">Dashboard</a>
+        <button
+          (click)="logout()"
+          class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 border-none cursor-pointer text-base"
+        >
+          Logout
+        </button>
+      }
+    </div>
+  </nav>
+</header>

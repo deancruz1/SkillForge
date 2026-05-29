@@ -20,11 +20,9 @@ public class AuthService {
 
     public String login(String email, String password) {
         User user = userService.findByEmail(email);
-
         if (!passwordEncoder.matches(password, user.getPasswordHash())) {
             throw new RuntimeException("Invalid password");
         }
-
-        return jwtUtil.generateToken(user.getEmail(), user.getRole().name());
+        return jwtUtil.generateToken(user.getEmail(), user.getRole().name(), user.getId().toString());
     }
 }
